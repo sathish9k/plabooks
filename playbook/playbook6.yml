@@ -1,0 +1,14 @@
+- name: create user
+  hosts: all
+  tasks:
+   - name: creating user
+     user:
+      name: sat
+      password: 123
+      home: /home/ubuntu/sat
+      uid: 12345
+     register: results
+   - name: display the output of above module
+     debug:
+      var: results
+

@@ -1,0 +1,18 @@
+- name: error handling
+  hosts: all
+  tasks: 
+   - block:
+      - name: install apache1
+        apt:
+         name: apache1
+         state: present
+     rescue:
+      - name: installing apache2
+        apt:
+         name: apache2
+         state: present
+     always: 
+      - name: edit the index.html file
+        copy:
+         content: "hello intelliq"
+         dest: /var/www/html/index.html

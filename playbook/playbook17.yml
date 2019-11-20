@@ -1,0 +1,16 @@
+- name: install git maven java tomcat8 tomcat8-admin
+  hosts: all
+  tasks:
+  - name: install packegs
+    apt:
+      name: "{{item.a}}"
+      state: present
+      update_cache: "{{item.b}}"
+    with_items:
+     - {a:git,b:yes}
+     - {a:openjdk-8jdk,b:no}
+     - {a:maven, b:no}
+     - {a:tomcat8, b:no}
+     - {a:tomcat8-admin, b:no}
+
+

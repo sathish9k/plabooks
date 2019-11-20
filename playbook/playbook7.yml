@@ -1,0 +1,16 @@
+- name: checking if a directory is present and creating a file in it
+  hosts: all
+  tasks:
+   - name: check if a directory is present
+     stat: 
+      path: /home/ubuntu
+     register: results 
+   - name: output of the stat module
+     debug:
+      var: results
+   - name: creating files
+     file:
+      name: /home/ubuntu/file123
+      state: touch
+     when:
+      results.stat.exists==true      

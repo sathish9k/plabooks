@@ -1,0 +1,13 @@
+- name: using when condition
+  hosts: all
+  vars:
+   - a: 20
+  tasks:
+   - name: install git
+     apt: 
+      name: git
+      state: present
+      update_cache: yes
+     when:
+      a==20         
+

@@ -1,0 +1,16 @@
+- name: create instance
+  hosts: all
+  tasks:
+    - name: lanuch instance
+      ec2:
+        aws_access_key: AKIAJF24CVFNMFDK34OA 
+        aws_secret_key: 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
+        key_name: anr
+        group: default
+        instance_type: t2.micro
+        image: ami-01ac7d9c1179d7b74
+        wait: true
+        region: us-east-1
+        vpc_subnet_id: subnet_085c6842
+        assgin_public_ip: yes 
+        count: 1

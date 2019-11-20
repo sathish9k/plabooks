@@ -1,0 +1,42 @@
+---
+-
+    name: 'creating CI-CD with ansible YML file'
+    hosts: all
+    tasks:
+        -
+            name: 'Install S/w'
+            apt: {name: '{{item.a}}', state: present, update_cache: '{{item.b}}'}
+            with_items: [{a: openjdk-8-jdk, b: yes}, {a: git, b: no}, {a: maven, b: no}, {a: tomcat8, b: no}, {a: tomcat8-admin, b: no}]
+-
+    name: 'continues download and continues build'
+    hosts: DevServer
+    tasks:
+        -
+            name: 'Downnload the code from GIT'
+            git: {repo: 'https://github.com/selenium-saikrishna/maven.git', dest: /home/ubuntu/dev-git}
+        -
+            name: 'create an Aritfact from the dwonloded code'
+            shell: 'cd /home/ubuntu/dev-git; mvn package'
+        -
+            name: 'Fetch the artifact from the dev to Controller'
+            fetch: {src: /home/ubuntu/dev-git/webapp/target/webapp.war, dest: /tmp}
+        -
+    name: 'continues deployment and Testing'
+    hosts: QaServer
+    tasks: 
+        -  
+            name: 'copy artifact into qa server tomcat'
+            copy: {src: /tmp/DevServer/home/ubuntu/dev-git/webapp/target/webapp.war, dest: /var/lib/tomcat8/webapps/qaenv.war}
+        -
+            name: 'Download the Testing programs'
+            git: {repo: 'https://github.com/selenium-saikrishna/TestingNew.git', dest: /home/ubuntu/testing-git}
+        -
+            name: 'Run the testing programs'
+            shell: 'java -jar /home/ubuntu/testing-git/testing.jar'
+            register: results
+        -
+            name: Display the out put of the results
+            debug: 
+             var: results
+       
+...

@@ -1,0 +1,19 @@
+- name: tagging in ansible
+  hosts: all
+  tasks:
+   - name: install tree
+     apt:
+      name: tree
+      state: present
+     tags:
+       tree_installation
+   - name: creating users
+     user:
+      name: rajini
+      password: 234
+     tags: 
+       user_creation
+   - name: copy passwd file
+     copy:
+      src: /etc/passwd
+      dest: /tmp     

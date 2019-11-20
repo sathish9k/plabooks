@@ -1,0 +1,6 @@
+- name: call child playbook for installing tomcat8
+  hosts: all
+  tasks:
+   - name: call child playbook
+     include:
+        playbook9.yml       

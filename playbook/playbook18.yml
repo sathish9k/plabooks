@@ -1,0 +1,21 @@
+- name: imp docker-compose
+  hosts: all
+  tasks:
+   - name: create jenkins
+     docker_container:
+       name: dev
+       image: jenkins
+       ports:
+          "5566:8080"
+   - name: create tomcat
+     docker_container:
+       image: tomcat
+       name: "{{item.a}}"
+       ports:
+        - "{{item.b}}"
+       links:
+        - "dev:jenkins"
+
+     with_items:
+       - {a: qaserver,b: "6677:8080"} 
+       - {a: prodserver,b: "7788:8080"}    
